@@ -12,5 +12,7 @@ namespace Tic_tac_toe.Models.Players.Contracts
 
         public void Win();
 
+        public void PlayerMakeTurn(int row, int col, string[,] field);
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Tic_tac_toe.Models.Players.Contracts
 {
-    public interface IComputerPlayer
+    public interface IComputerPlayer : IPlayer
     {
-        public void MakeTurn(string[,] field);
+        public void MakeTurnAutomatically(string[,] field);
     }
 }

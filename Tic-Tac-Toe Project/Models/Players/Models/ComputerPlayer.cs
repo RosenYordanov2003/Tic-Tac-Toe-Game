@@ -3,7 +3,7 @@
     using System;
     using Contracts;
 
-    public class ComputerPlayer : Player, IComputerPlayer
+    public class ComputerPlayer : Player,IComputerPlayer
     {
         private const string DefaultComputerUserName = "Computer";
 
@@ -17,11 +17,11 @@
             _nextCol = 0;
         }
 
-        public void MakeTurn(string[,] field)
+        public void MakeTurnAutomatically(string[,] field)
         {
             _nextRow = _random.Next(0, field.GetLength(0));
             _nextCol = _random.Next(0, field.GetLength(1));
-            bool isEmptyCell = field[_nextRow, _nextRow] == default;
+            bool isEmptyCell = field[_nextRow, _nextRow] == " ";
             if (isEmptyCell)
             {
                 field[_nextRow, _nextCol] = Symbol;
@@ -32,10 +32,12 @@
                 {
                     _nextRow = _random.Next(0, field.GetLength(0));
                     _nextCol = _random.Next(0, field.GetLength(1));
-                    isEmptyCell = field[_nextRow, _nextRow] == default;
+                    isEmptyCell = field[_nextRow, _nextRow] == " ";
                     if (isEmptyCell)
                     {
                         field[_nextRow, _nextCol] = Symbol;
+                        break;
+                        
                     }
                 }
             }

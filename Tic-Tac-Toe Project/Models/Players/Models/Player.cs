@@ -49,10 +49,24 @@
                 _symbol = value;
             }
         }
+
+        public void PlayerMakeTurn(int row, int col, string[,] field)
+        {
+            if (!ValidateCell(row, col, field))
+            {
+                field[row, col] = this.Symbol;
+            }
+            else
+            {
+                Console.WriteLine("This cell is already Filled");
+            }
+        }
         public void Win()
         {
             Points++;
         }
+
+        private bool ValidateCell(int row, int col, string[,] field) => field[row, col] !=" ";
 
     }
 }

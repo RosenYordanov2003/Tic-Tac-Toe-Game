@@ -56,13 +56,11 @@
         {
             for (int row = 0; row < Matrix.GetLength(0); row++)
             {
-                string[] input = Console.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 for (int col = 0; col < Matrix.GetLength(1); col++)
                 {
-                    Matrix[row, col] = input[col];
+                    Matrix[row, col] = " ";
                 }
             }
         }
-
     }
 }
