@@ -1,6 +1,4 @@
-﻿using Tic_tac_toe.Utilities;
-
-namespace Tic_tac_toe.Core.Models
+﻿namespace Tic_tac_toe.Core.Models
 {
     using System;
     using System.Threading;
@@ -8,6 +6,10 @@ namespace Tic_tac_toe.Core.Models
     using Tic_tac_toe.Models.Fields.Contracts;
     using Tic_tac_toe.Models.Players.Contracts;
     using Tic_tac_toe.Models.Players.Models;
+    using Tic_tac_toe.Models.Drawers.Contracts;
+    using Tic_tac_toe.Models.Validators.Contracts;
+    using Tic_tac_toe.Models.Boards.Contracts;
+    using Utilities;
     public class Controller : IController
     {
         private readonly IPlayer _playerOne;
@@ -16,13 +18,22 @@ namespace Tic_tac_toe.Core.Models
 
         private readonly IField _field;
 
+        private readonly IDrawer _drawer;
+
+        private readonly IValidator _validator;
+
+        private readonly IBoard<IPlayer> _scoreBoard;
+
         private const int SuccessfulExitCode = 0;
-        public Controller(IPlayer playerOne, IPlayer playerTwo, IField field)
+        public Controller(IPlayer playerOne, IPlayer playerTwo, IField field, IDrawer drawer, IValidator validator, IBoard<IPlayer> scoreBoard)
         {
             _playerOne = playerOne;
             _playerTwo = playerTwo;
             _field = field;
             _field.GenerateField();
+            _drawer = drawer;
+            _validator = validator;
+            _scoreBoard = scoreBoard;
         }
 
         public void PlayRound()
@@ -30,9 +41,12 @@ namespace Tic_tac_toe.Core.Models
             bool isPlayerOneTurn = true;
             while (true)
             {
+                _scoreBoard.GenerateField();
+                _drawer.DrawAt(_scoreBoard.Matrix,35,0);
+                Console.SetCursorPosition(0, 0);
                 string playerNameOnTurn = isPlayerOneTurn ? _playerOne.UserName : _playerTwo.UserName;
                 Console.WriteLine($"{playerNameOnTurn} is on turn!");
-                _field.Drawer.Draw(_field.Matrix);
+                _drawer.Draw(_field.Matrix);
 
                 if (isPlayerOneTurn)
                 {
@@ -68,13 +82,13 @@ namespace Tic_tac_toe.Core.Models
                     break;
                 }
 
-                if (_field.Validator.Validate(_field.Matrix))
+                if (_validator.Validate(_field.Matrix))
                 {
                     PrintWinnerResult(isPlayerOneTurn);
                     IncreasePoints(isPlayerOneTurn);
                     break;
                 }
-                Thread.Sleep(100*7);
+                Thread.Sleep(100 * 5);
                 isPlayerOneTurn = !isPlayerOneTurn;
                 Console.Clear();
             }
@@ -103,7 +117,7 @@ namespace Tic_tac_toe.Core.Models
         {
             Console.Clear();
             Console.WriteLine("Final field state:\n");
-            _field.Drawer.Draw(_field.Matrix);
+            _drawer.Draw(_field.Matrix);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine();
             Console.WriteLine("ROUND OVER!");

@@ -1,22 +1,13 @@
 ﻿namespace Tic_tac_toe.Models.Fields.Models
 {
-    using System;
     using Contracts;
-    using Tic_tac_toe.Models.Drawers.Contracts;
-    using Utilities;
-    using Tic_tac_toe.Models.Validators.Contracts;
-
     public class Field : IField
     {
         private string[,] _matrix;
 
-        private IDraw _drawer;
-
-        private IValidator _validator;
-        public Field(IDraw drawer, IValidator validator)
+        public Field()
         {
-            Drawer = drawer;
-            Validator = validator;
+          
             Matrix = new string[3, 3];
         }
         public string[,] Matrix
@@ -25,32 +16,6 @@
             private set => _matrix = value;
         }
 
-        public IDraw Drawer
-        {
-            get => _drawer;
-            private set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentException(ExceptionMessages.InvalidDrawer);
-                }
-
-                _drawer = value;
-            }
-        }
-
-        public IValidator Validator
-        {
-            get => _validator;
-            private set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentException(ExceptionMessages.InvalidValidator);
-                }
-                _validator = value;
-            }
-        }
 
         public void GenerateField()
         {

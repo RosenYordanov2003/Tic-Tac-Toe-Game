@@ -1,4 +1,7 @@
-﻿namespace Tic_tac_toe
+﻿using Tic_tac_toe.Models.Boards;
+using Tic_tac_toe.Models.Boards.Contracts;
+
+namespace Tic_tac_toe
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +12,8 @@
     using Tic_tac_toe.Models.Fields.Models;
     using Tic_tac_toe.Models.Players.Models;
     using Tic_tac_toe.Models.Validators.Models;
+    using Models.Drawers.Contracts;
+    using Models.Validators.Contracts;
     using Models.Fields.Contracts;
     using Utilities;
     using Models.Players.Contracts;
@@ -42,9 +47,13 @@
             Console.WriteLine("Enter color for the field:");
             string colorType = Console.ReadLine();
             Console.Clear();
+
             IFactory<ConsoleColor> factory = new ColorFactory();
-            IField field = new Field(new MatrixDrawer(factory.GenerateType(colorType)), new Tic_Tac_Toe_ResultValidator());
-            IEngine engine = new Engine(new Controller(playerOne, playerTwo, field));
+            IField field = new Field();
+            IDrawer matrixDrawer = new MatrixDrawer(factory.GenerateType(colorType));
+            IValidator validator = new Tic_Tac_Toe_ResultValidator();
+            IBoard<IPlayer> scoreBoard = new ScoreBoard(playerOne, playerTwo);
+            IEngine engine = new Engine(new Controller(playerOne, playerTwo, field, matrixDrawer, validator, scoreBoard));
             engine.Run();
         }
 

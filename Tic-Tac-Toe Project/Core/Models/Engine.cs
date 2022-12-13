@@ -17,7 +17,7 @@
         {
             Console.WriteLine("Please select option:\n(1 Play round\n(2 Show PlayerInfo\n(3 Exit");
             string command = Console.ReadLine();
-           
+
             while (true)
             {
                 try
@@ -35,9 +35,17 @@
                         Console.WriteLine("Enter player name");
                         string playerName = Console.ReadLine();
                         Console.WriteLine(_controller.PlayerInfo(playerName));
+                        Thread.Sleep(100 * 19);
+                        Console.Clear();
+                        Run();
                     }
                     else
                     {
+                        Console.Clear();
+                        Console.SetCursorPosition(25, 10);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine("Thank you for using our application, have a nice day :)");
+                        Console.ForegroundColor = ConsoleColor.White;
                         _controller.Exit();
                     }
                 }
@@ -45,12 +53,11 @@
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(exception.Message);
-                    Thread.Sleep(100*16);
+                    Thread.Sleep(100 * 17);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.Clear();
                     Run();
                 }
-               
                 command = Console.ReadLine();
             }
         }

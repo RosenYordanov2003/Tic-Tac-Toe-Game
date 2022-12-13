@@ -17,5 +17,7 @@
 
         public const string NoExistingPlayer = "Player {0} does not exist in our application";
 
+        public const string InvalidPlayerForTheBoard = "Player can't be null";
+
     }
 }
