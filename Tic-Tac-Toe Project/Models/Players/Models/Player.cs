@@ -1,6 +1,7 @@
 ﻿namespace Tic_tac_toe.Models.Players.Models
 {
     using System;
+    using System.Text;
     using Contracts;
     using Utilities;
     public class Player : IPlayer
@@ -68,5 +69,12 @@
 
         private bool ValidateCell(int row, int col, string[,] field) => field[row, col] !=" ";
 
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"{UserName} information:");
+            sb.AppendLine($"{UserName} play with {Symbol} symbol and has won {Points} points");
+            return sb.ToString().TrimEnd();
+        }
     }
 }

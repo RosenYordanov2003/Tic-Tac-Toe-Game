@@ -1,5 +1,4 @@
-﻿
-namespace Tic_tac_toe.Models.Drawers.Models
+﻿namespace Tic_tac_toe.Models.Drawers.Models
 {
     using System;
     using Contracts;
@@ -18,7 +17,7 @@ namespace Tic_tac_toe.Models.Drawers.Models
             {
                 for (int col = 0; col < matrix.GetLength(1); col++)
                 {
-                    if (col < 2)
+                    if (col < matrix.GetLength(1))
                     {
                         Console.Write($"{matrix[row, col]}|");
                     }

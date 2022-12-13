@@ -15,7 +15,7 @@
     using Factories;
     public class Program
     {
-        static Dictionary<string, int> symbols = new Dictionary<string, int>()
+        private static Dictionary<string, int> symbols = new()
         {
             { "X", 0 },
             { "O", 0 },
@@ -42,10 +42,9 @@
             Console.WriteLine("Enter color for the field:");
             string colorType = Console.ReadLine();
             Console.Clear();
-
             IFactory<ConsoleColor> factory = new ColorFactory();
             IField field = new Field(new MatrixDrawer(factory.GenerateType(colorType)), new Tic_Tac_Toe_ResultValidator());
-            IEngine engine = new Engine(field, new Controller(playerOne, playerTwo, field), playerOne, playerTwo);
+            IEngine engine = new Engine(new Controller(playerOne, playerTwo, field));
             engine.Run();
         }
 
@@ -70,13 +69,12 @@
                 }
                 else
                 {
-                    //Exception from the property validation should be thrown;
+                    //Exception sould be thrown from the property validation.;
                     player = new Player(playerTwoUserName, sign);
                 }
             }
             else
             {
-                Console.WriteLine("Player two enter your sign:");
                 KeyValuePair<string, int> kvp = symbols.FirstOrDefault(k => k.Value == 0);
                 string sing = kvp.Key;
                 player = new ComputerPlayer(sing);

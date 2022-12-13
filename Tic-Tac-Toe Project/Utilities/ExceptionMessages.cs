@@ -15,5 +15,7 @@
 
         public const string SignIsNtAvailable = "Sign {0} is already taken";
 
+        public const string NoExistingPlayer = "Player {0} does not exist in our application";
+
     }
 }

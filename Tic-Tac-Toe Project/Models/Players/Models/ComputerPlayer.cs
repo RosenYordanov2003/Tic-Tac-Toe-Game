@@ -21,23 +21,22 @@
         {
             _nextRow = _random.Next(0, field.GetLength(0));
             _nextCol = _random.Next(0, field.GetLength(1));
-            bool isEmptyCell = field[_nextRow, _nextRow] == " ";
+            bool isEmptyCell = field[_nextRow, _nextCol] == " ";
             if (isEmptyCell)
             {
                 field[_nextRow, _nextCol] = Symbol;
             }
             else
             {
-                while (!isEmptyCell)
+                while (true)
                 {
                     _nextRow = _random.Next(0, field.GetLength(0));
                     _nextCol = _random.Next(0, field.GetLength(1));
-                    isEmptyCell = field[_nextRow, _nextRow] == " ";
+                    isEmptyCell = field[_nextRow, _nextCol] == " ";
                     if (isEmptyCell)
                     {
                         field[_nextRow, _nextCol] = Symbol;
                         break;
-                        
                     }
                 }
             }

@@ -2,8 +2,9 @@
 {
     public interface IController
     {
-        public void Play(bool isPlayerOneTurn);
-
+        public void PlayRound();
         public void Exit();
+
+        public string PlayerInfo(string playerName);
     }
 }
