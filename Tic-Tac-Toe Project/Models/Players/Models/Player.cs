@@ -1,4 +1,6 @@
-﻿namespace Tic_tac_toe.Models.Players.Models
+﻿using System.Threading;
+
+namespace Tic_tac_toe.Models.Players.Models
 {
     using System;
     using System.Text;
@@ -25,7 +27,7 @@
             {
                 if (string.IsNullOrWhiteSpace(value) || value.Length < 3)
                 {
-                    throw new ArgumentException(ExceptionMessages.InvalidPlayerName);
+                    throw new ArgumentNullException(nameof(UserName),ExceptionMessages.InvalidPlayerName);
                 }
 
                 _userName = value;
@@ -59,7 +61,10 @@
             }
             else
             {
-                Console.WriteLine("This cell is already Filled");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("This cell is already Filled:(\nTry again next round");
+                Thread.Sleep(1000 * 2);
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
         public void Win()

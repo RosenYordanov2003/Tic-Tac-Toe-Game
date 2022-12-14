@@ -19,27 +19,52 @@
 
         public void MakeTurnAutomatically(string[,] field)
         {
-            _nextRow = _random.Next(0, field.GetLength(0));
-            _nextCol = _random.Next(0, field.GetLength(1));
-            bool isEmptyCell = field[_nextRow, _nextCol] == " ";
-            if (isEmptyCell)
+            if (CheckMatrixWhetherIsFilled(field))
             {
-                field[_nextRow, _nextCol] = Symbol;
-            }
-            else
-            {
-                while (true)
+                _nextRow = _random.Next(0, field.GetLength(0));
+                _nextCol = _random.Next(0, field.GetLength(1));
+                bool isEmptyCell = field[_nextRow, _nextCol] == " ";
+                if (isEmptyCell)
                 {
-                    _nextRow = _random.Next(0, field.GetLength(0));
-                    _nextCol = _random.Next(0, field.GetLength(1));
-                    isEmptyCell = field[_nextRow, _nextCol] == " ";
-                    if (isEmptyCell)
+                    field[_nextRow, _nextCol] = Symbol;
+                }
+                else
+                {
+                    while (true)
                     {
-                        field[_nextRow, _nextCol] = Symbol;
-                        break;
+                        _nextRow = _random.Next(0, field.GetLength(0));
+                        _nextCol = _random.Next(0, field.GetLength(1));
+                        isEmptyCell = field[_nextRow, _nextCol] == " ";
+                        if (isEmptyCell)
+                        {
+                            field[_nextRow, _nextCol] = Symbol;
+                            break;
+                        }
                     }
                 }
             }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("Draw");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+           
+        }
+
+        private bool CheckMatrixWhetherIsFilled(string[,] field)
+        {
+            for (int row = 0; row < field.GetLength(0); row++)
+            {
+                for (int col = 0; col < field.GetLength(1); col++)
+                {
+                    if (field[row,col]==" ")
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
     }
 }

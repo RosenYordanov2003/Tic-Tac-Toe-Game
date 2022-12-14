@@ -1,9 +1,9 @@
 ﻿namespace Tic_tac_toe.Models.Fields.Contracts
 {
     
-    public interface IField
+    public interface IField<T>
     {
-        public string[,] Matrix { get; }
+        public T Matrix { get; }
 
 
         public void GenerateField();

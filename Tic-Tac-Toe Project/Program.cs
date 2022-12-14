@@ -1,23 +1,21 @@
-﻿using Tic_tac_toe.Models.Boards;
-using Tic_tac_toe.Models.Boards.Contracts;
-
-namespace Tic_tac_toe
+﻿namespace Tic_tac_toe
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using Core.Contracts;
-    using Tic_tac_toe.Core.Models;
-    using Tic_tac_toe.Models.Drawers.Models;
-    using Tic_tac_toe.Models.Fields.Models;
-    using Tic_tac_toe.Models.Players.Models;
-    using Tic_tac_toe.Models.Validators.Models;
-    using Models.Drawers.Contracts;
+    using Core.Models;
+    using Models.Fields.Models;
+    using Models.Players.Models;
+    using Models.Validators.Models;
     using Models.Validators.Contracts;
     using Models.Fields.Contracts;
     using Utilities;
     using Models.Players.Contracts;
-    using Factories;
+    using Models.Boards;
+    using Models.Boards.Contracts;
+
     public class Program
     {
         private static Dictionary<string, int> symbols = new()
@@ -25,38 +23,61 @@ namespace Tic_tac_toe
             { "X", 0 },
             { "O", 0 },
         };
-        static void Main(string[] args)
+        static void Main()
         {
+            try
+            {
+                Console.WriteLine("Enter player one name: ");
+                string playerOneUserName = Console.ReadLine();
+                Console.WriteLine("Player one choose your sign. The possible ones are X and O");
+                string playerOneSign = Console.ReadLine();
+                IPlayer playerOne = new Player(playerOneUserName, playerOneSign);
+                symbols[playerOneSign]++;
 
-            Console.WriteLine("Enter player one name: ");
-            string playerOneUserName = Console.ReadLine();
-            Console.WriteLine("Player one choose your sign. The possible ones are X and O");
-            string playerOneSign = Console.ReadLine();
-            IPlayer playerOne = new Player(playerOneUserName, playerOneSign);
-            symbols[playerOneSign]++;
+                Console.WriteLine("Are you going to play with your friend ?");
 
-            Console.WriteLine("Are you going to play with your friend ?");
+                string answer = Console.ReadLine();
 
-            string answer = Console.ReadLine();
+                IPlayer playerTwo = CreatePlayerTwo(answer);
 
-            IPlayer playerTwo = CreatePlayerTwo(answer);
 
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Game starting!");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Enter color for the field:");
-            string colorType = Console.ReadLine();
-            Console.Clear();
+                Console.Clear();
 
-            IFactory<ConsoleColor> factory = new ColorFactory();
-            IField field = new Field();
-            IDrawer matrixDrawer = new MatrixDrawer(factory.GenerateType(colorType));
-            IValidator validator = new Tic_Tac_Toe_ResultValidator();
-            IBoard<IPlayer> scoreBoard = new ScoreBoard(playerOne, playerTwo);
-            IEngine engine = new Engine(new Controller(playerOne, playerTwo, field, matrixDrawer, validator, scoreBoard));
-            engine.Run();
+
+                IField<string[,]> field = new Field();
+                IValidator<string[,]> validator = new Tic_Tac_Toe_ResultValidator();
+                IBoard<IPlayer> scoreBoard = new ScoreBoard(playerOne, playerTwo);
+                IEngine engine = new Engine(new Controller(playerOne, playerTwo, field, validator, scoreBoard));
+                engine.Run();
+            }
+            catch (ArgumentNullException exception)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(exception.Message);
+                Threading();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Main();
+            }
+            catch (ArgumentException exception)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(exception.Message);
+                Threading();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Main();
+            }
+            catch (InvalidOperationException exception)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(exception.Message);
+                Threading();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Main();
+            }
         }
-
 
         private static IPlayer CreatePlayerTwo(string answer)
         {
@@ -89,6 +110,11 @@ namespace Tic_tac_toe
                 player = new ComputerPlayer(sing);
             }
             return player;
+        }
+
+        private static void Threading()
+        {
+            Thread.Sleep(900*3);
         }
     }
 }

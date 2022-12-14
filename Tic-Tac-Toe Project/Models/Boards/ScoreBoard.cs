@@ -1,4 +1,6 @@
-﻿namespace Tic_tac_toe.Models.Boards
+﻿using Tic_tac_toe.Models.Fields.Contracts;
+
+namespace Tic_tac_toe.Models.Boards
 {
     using System;
     using Utilities;
@@ -14,7 +16,7 @@
 
         public ScoreBoard(IPlayer playerOne, IPlayer playerTwo)
         {
-            Matrix = new string[2,1];
+            Matrix = new string[3, 1];
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
         }
@@ -26,7 +28,7 @@
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(nameof(PlayerOne), ExceptionMessages.InvalidPlayerName);
+                    throw new ArgumentNullException(nameof(PlayerOne), ExceptionMessages.InvalidPlayerForTheBoard);
                 }
 
                 _playerOne = value;
@@ -40,7 +42,7 @@
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException(nameof(PlayerTwo), ExceptionMessages.InvalidPlayerName);
+                    throw new ArgumentNullException(nameof(PlayerTwo), ExceptionMessages.InvalidPlayerForTheBoard);
                 }
 
                 _playerTwo = value;
@@ -50,10 +52,12 @@
 
         public string[,] Matrix { get; private set; }
 
+
         public void GenerateField()
         {
-            Matrix[0, 0] = $"|Player one: {PlayerOne.UserName} : {PlayerOne.Points} wins";
-            Matrix[1, 0] = $"|Player two: {PlayerTwo.UserName} : {PlayerTwo.Points} wins";
+            Matrix[0, 0] = " Scoreboard";
+            Matrix[1, 0] = $"|Player one: {PlayerOne.UserName} : {PlayerOne.Points} wins";
+            Matrix[2, 0] = $"|Player two: {PlayerTwo.UserName} : {PlayerTwo.Points} wins";
         }
     }
 }

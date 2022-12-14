@@ -31,7 +31,7 @@
             type = type.ToLower();
             if (!_colors.ContainsKey(type))
             {
-                throw new ArgumentException(string.Format(ExceptionMessages.InvalidColor, type));
+                throw new InvalidOperationException(string.Format(ExceptionMessages.InvalidColor, type));
             }
 
             return _colors[type];

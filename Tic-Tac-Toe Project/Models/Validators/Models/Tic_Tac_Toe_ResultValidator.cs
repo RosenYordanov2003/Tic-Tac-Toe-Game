@@ -2,15 +2,15 @@
 {
     using Contracts;
 
-    public class Tic_Tac_Toe_ResultValidator : IValidator
+    public class Tic_Tac_Toe_ResultValidator : IValidator<string[,]>
     {
         public bool Validate(string[,] field)
         {
-            if (field[0, 0] == field[0, 1] && field[0, 0] == field[0, 2] && (field[0,0]!=" " && field[0,1]!=" " && field[0,2]!=" "))
+            if (field[0, 0] == field[0, 1] && field[0, 0] == field[0, 2] && (field[0, 0] != " " && field[0, 1] != " " && field[0, 2] != " "))
             {
                 return true;
             }
-            else if (field[1, 0] == field[1, 1] && field[1, 0] == field[1, 2] && (field[1,0]!=" " && field[1,1]!=" " && field[1,2]!=" "))
+            else if (field[1, 0] == field[1, 1] && field[1, 0] == field[1, 2] && (field[1, 0] != " " && field[1, 1] != " " && field[1, 2] != " "))
             {
                 return true;
             }
@@ -18,15 +18,15 @@
             {
                 return true;
             }
-            else if (field[0, 0] == field[1, 0] && field[0, 0] == field[2, 0] && (field[0,0]!=" " && field[1,0]!=" " && field[2,0]!=" "))
+            else if (field[0, 0] == field[1, 0] && field[0, 0] == field[2, 0] && (field[0, 0] != " " && field[1, 0] != " " && field[2, 0] != " "))
             {
                 return true;
             }
-            else if (field[0, 1] == field[1, 1] && field[0, 1] == field[2, 1] && (field[0,1]!=" " && field[1,1]!=" " && field[2,1]!=" "))
+            else if (field[0, 1] == field[1, 1] && field[0, 1] == field[2, 1] && (field[0, 1] != " " && field[1, 1] != " " && field[2, 1] != " "))
             {
                 return true;
             }
-            else if (field[0, 2] == field[1, 2] && field[0, 2] == field[2, 2] && (field[0,2]!=" " && field[1,2]!=" " && field[2,2]!=" "))
+            else if (field[0, 2] == field[1, 2] && field[0, 2] == field[2, 2] && (field[0, 2] != " " && field[1, 2] != " " && field[2, 2] != " "))
             {
                 return true;
             }
@@ -34,11 +34,12 @@
             {
                 return true;
             }
-            else if (field[0, 2] == field[1, 1] && field[0, 2] == field[2, 0] && (field[0,2]!=" " && field[1,1]!=" " && field[0,2]!=" "))
+            else if (field[0, 2] == field[1, 1] && field[0, 2] == field[2, 0] && (field[0, 2] != " " && field[1, 1] != " " && field[0, 2] != " "))
             {
                 return true;
             }
             return false;
         }
+
     }
 }

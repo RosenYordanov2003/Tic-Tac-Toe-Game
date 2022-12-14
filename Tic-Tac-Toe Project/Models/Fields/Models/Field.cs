@@ -1,7 +1,7 @@
 ﻿namespace Tic_tac_toe.Models.Fields.Models
 {
     using Contracts;
-    public class Field : IField
+    public class Field : IField<string[,]>
     {
         private string[,] _matrix;
 

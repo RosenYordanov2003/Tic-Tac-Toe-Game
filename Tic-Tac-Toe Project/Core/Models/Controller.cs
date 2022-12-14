@@ -16,37 +16,35 @@
 
         private IPlayer _playerTwo;
 
-        private readonly IField _field;
+        private readonly IField<string[,]> _field;
 
-        private readonly IDrawer _drawer;
 
-        private readonly IValidator _validator;
+        private readonly IValidator<string[,]> _validator;
 
         private readonly IBoard<IPlayer> _scoreBoard;
 
         private const int SuccessfulExitCode = 0;
-        public Controller(IPlayer playerOne, IPlayer playerTwo, IField field, IDrawer drawer, IValidator validator, IBoard<IPlayer> scoreBoard)
+        public Controller(IPlayer playerOne, IPlayer playerTwo, IField<string[,]> field, IValidator<string[,]> validator, IBoard<IPlayer> scoreBoard)
         {
             _playerOne = playerOne;
             _playerTwo = playerTwo;
             _field = field;
-            _field.GenerateField();
-            _drawer = drawer;
             _validator = validator;
             _scoreBoard = scoreBoard;
         }
 
-        public void PlayRound()
+        public void PlayRound(IDrawer<string[,]> drawer)
         {
+            _field.GenerateField();
             bool isPlayerOneTurn = true;
             while (true)
             {
                 _scoreBoard.GenerateField();
-                _drawer.DrawAt(_scoreBoard.Matrix,35,0);
+                drawer.DrawAt(_scoreBoard.Matrix,35,0);
                 Console.SetCursorPosition(0, 0);
                 string playerNameOnTurn = isPlayerOneTurn ? _playerOne.UserName : _playerTwo.UserName;
                 Console.WriteLine($"{playerNameOnTurn} is on turn!");
-                _drawer.Draw(_field.Matrix);
+                drawer.Draw(_field.Matrix);
 
                 if (isPlayerOneTurn)
                 {
@@ -75,19 +73,18 @@
                         computerPlayer.MakeTurnAutomatically(_field.Matrix);
                     }
                 }
-
+                if (_validator.Validate(_field.Matrix))
+                {
+                    PrintWinnerResult(isPlayerOneTurn,drawer);
+                    IncreasePoints(isPlayerOneTurn);
+                    break;
+                }
                 if (CheckForDrawResult(_field.Matrix))
                 {
                     PrintDrawResult();
                     break;
                 }
 
-                if (_validator.Validate(_field.Matrix))
-                {
-                    PrintWinnerResult(isPlayerOneTurn);
-                    IncreasePoints(isPlayerOneTurn);
-                    break;
-                }
                 Thread.Sleep(100 * 5);
                 isPlayerOneTurn = !isPlayerOneTurn;
                 Console.Clear();
@@ -113,16 +110,18 @@
         }
 
 
-        private void PrintWinnerResult(bool isPlayerOneTurn)
+        private void PrintWinnerResult(bool isPlayerOneTurn, IDrawer<string[,]> drawer)
         {
             Console.Clear();
             Console.WriteLine("Final field state:\n");
-            _drawer.Draw(_field.Matrix);
-            Console.ForegroundColor = ConsoleColor.Red;
+            drawer.Draw(_field.Matrix);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Thread.Sleep(500 * 2);
             Console.WriteLine();
             Console.WriteLine("ROUND OVER!");
             string winner = isPlayerOneTurn ? _playerOne.UserName : _playerTwo.UserName;
-            Console.WriteLine($"The winner for this round is: {winner}\nDo you want to play more?\n");
+            Thread.Sleep(1000*2);
+            Console.WriteLine($"The winner for this round is: {winner}");
             Console.ForegroundColor = ConsoleColor.White;
         }
         private void PrintDrawResult()
@@ -142,7 +141,7 @@
             {
                 for (int col = 0; col < matrix.GetLength(1); col++)
                 {
-                    if (matrix[row, col] != " ")
+                    if (matrix[row, col] == " ")
                     {
                         return false;
                     }

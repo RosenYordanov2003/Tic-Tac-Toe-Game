@@ -7,9 +7,6 @@
 
         public const string InvalidSymbol = "Invalid symbol. Symbol can't be different from X or O";
 
-        public const string InvalidDrawer = "Drawer can't be null";
-
-        public const string InvalidValidator = "ResultValidator can't be null";
 
         public const string InvalidColor = "Invalid Color {0}";
 

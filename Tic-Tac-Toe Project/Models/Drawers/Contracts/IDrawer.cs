@@ -1,9 +1,9 @@
 ﻿namespace Tic_tac_toe.Models.Drawers.Contracts
 {
-    public interface IDrawer
+    public interface IDrawer<T>
     {
-        public void Draw(object obj);
+        public void Draw(T value);
 
-        public void DrawAt(object obj, int leftX, int topY);
+        public void DrawAt(T value, int leftX, int topY);
     }
 }

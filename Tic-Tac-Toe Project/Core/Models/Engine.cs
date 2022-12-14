@@ -3,6 +3,9 @@
     using System;
     using System.Threading;
     using Contracts;
+    using Factories;
+    using Tic_tac_toe.Models.Drawers.Contracts;
+    using Tic_tac_toe.Models.Drawers.Models;
 
     public class Engine : IEngine
     {
@@ -24,8 +27,10 @@
                 {
                     if (command == "1")
                     {
+                        IDrawer<string[,]> matrixDrawer = CreateMatrixDrawer();
                         Console.Clear();
-                        _controller.PlayRound();
+                        _controller.PlayRound(matrixDrawer);
+
                         Thread.Sleep(400 * 5);
                         Console.Clear();
                         Console.WriteLine("If you want to play again select play round option:\n(1 Play round\n(2 Show PlayerInfo\n(3 Exit");
@@ -60,6 +65,19 @@
                 }
                 command = Console.ReadLine();
             }
+        }
+
+        private static IDrawer<string[,]> CreateMatrixDrawer()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Game starting!");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Enter color for the field:");
+            string colorType = Console.ReadLine();
+            IFactory<ConsoleColor> factory = new ColorFactory();
+            IDrawer<string[,]> matrixDrawer = new MatrixDrawer(factory.GenerateType(colorType));
+            return matrixDrawer;
         }
     }
 }
